@@ -180,7 +180,7 @@ if __name__ == '__main__':
 
 
 
-    @app.route('/flags/<string:name>', methods=['DELETE'])
+@app.route('/flags/<string:name>', methods=['DELETE'])
 def delete_flag(name):
         
     try:
