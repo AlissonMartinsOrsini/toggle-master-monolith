@@ -141,3 +141,64 @@ def update_flag(name):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @app.route('/flags/<string:name>', methods=['DELETE'])
+def delete_flag(name):
+        
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("delete from flags WHERE name = %s", (name,)) # essa virgula é oq faz essa query funcionar nao pode remover, a ',' faz o python entender
+                                                                  # que name é uma tupla e nao uma string. 
+        if cur.rowcount == 0:
+            return jsonify({"error": "Flag não encontrada"}), 404
+            
+        conn.commit()
+    finally:
+        if 'cur' in locals() and not cur.closed:
+            cur.close()
+        if 'conn' in locals() and not conn.closed:
+            conn.close()
+    
+    return jsonify({"message": f"Flag '{name}' removida"}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
